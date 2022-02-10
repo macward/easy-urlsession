@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		503595E427B42EB800C4E970 /* RuntimeApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503595E327B42EB800C4E970 /* RuntimeApiError.swift */; };
 		50A7DC94266FD86E00B82FA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7DC93266FD86E00B82FA7 /* AppDelegate.swift */; };
 		50A7DC96266FD86E00B82FA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7DC95266FD86E00B82FA7 /* SceneDelegate.swift */; };
 		50A7DC98266FD86E00B82FA7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7DC97266FD86E00B82FA7 /* ViewController.swift */; };
@@ -21,10 +22,10 @@
 		50A7DCB526714C7800B82FA7 /* RequestDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7DCB426714C7800B82FA7 /* RequestDispatcher.swift */; };
 		50FE318F27AB718E00A76A19 /* EnvironmentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE318E27AB718E00A76A19 /* EnvironmentProtocol.swift */; };
 		50FE319127AB71FD00A76A19 /* NetworkSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE319027AB71FD00A76A19 /* NetworkSessionProtocol.swift */; };
-		50FE319327AB737F00A76A19 /* GlobalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE319227AB737F00A76A19 /* GlobalEnvironment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		503595E327B42EB800C4E970 /* RuntimeApiError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuntimeApiError.swift; sourceTree = "<group>"; };
 		50A7DC90266FD86E00B82FA7 /* NetworkWrapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkWrapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50A7DC93266FD86E00B82FA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50A7DC95266FD86E00B82FA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,7 +42,6 @@
 		50A7DCB426714C7800B82FA7 /* RequestDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDispatcher.swift; sourceTree = "<group>"; };
 		50FE318E27AB718E00A76A19 /* EnvironmentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentProtocol.swift; sourceTree = "<group>"; };
 		50FE319027AB71FD00A76A19 /* NetworkSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSessionProtocol.swift; sourceTree = "<group>"; };
-		50FE319227AB737F00A76A19 /* GlobalEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,9 +91,9 @@
 		50A7DCA7266FF3A300B82FA7 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				503595E327B42EB800C4E970 /* RuntimeApiError.swift */,
 				50FE319027AB71FD00A76A19 /* NetworkSessionProtocol.swift */,
 				50FE318E27AB718E00A76A19 /* EnvironmentProtocol.swift */,
-				50FE319227AB737F00A76A19 /* GlobalEnvironment.swift */,
 				50A7DCAA267000F200B82FA7 /* RequestProtocol.swift */,
 				50A7DCA82670009A00B82FA7 /* RequestMethod.swift */,
 				50A7DCB2267136CA00B82FA7 /* NetworkSession.swift */,
@@ -192,8 +192,8 @@
 				50A7DC98266FD86E00B82FA7 /* ViewController.swift in Sources */,
 				50A7DCA92670009A00B82FA7 /* RequestMethod.swift in Sources */,
 				50A7DCB3267136CA00B82FA7 /* NetworkSession.swift in Sources */,
-				50FE319327AB737F00A76A19 /* GlobalEnvironment.swift in Sources */,
 				50A7DCB526714C7800B82FA7 /* RequestDispatcher.swift in Sources */,
+				503595E427B42EB800C4E970 /* RuntimeApiError.swift in Sources */,
 				50A7DCB12671364700B82FA7 /* BooksEndpoint.swift in Sources */,
 				50FE318F27AB718E00A76A19 /* EnvironmentProtocol.swift in Sources */,
 				50A7DC94266FD86E00B82FA7 /* AppDelegate.swift in Sources */,

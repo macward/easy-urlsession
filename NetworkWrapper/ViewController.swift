@@ -30,9 +30,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let apiDispatcher = RequestDispatcher(networkSession: NetworkSession())
+        let apiDispatcher = RequestDispatcher(networkSession: NetworkSession(), environment: nil)
         apiDispatcher.execute(request: BooksEndpoint.index, of: BankTransferModel.self) { response in
-            print(response)
+            switch response {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
         }
     }
 

@@ -21,12 +21,12 @@ protocol RequestProtocol {
 
 extension RequestProtocol {
     
-    public func urlRequest(with environment: EnvironmentProtocol) -> URLRequest? {
+    public func urlRequest(with environment: EnvironmentProtocol?) -> URLRequest? {
         
-        let stringUrl = self.baseUrl == nil ? environment.baseURL : self.baseUrl!
+        let stringUrl = urlSelector(environment: environment)
         
         guard let url = self.url(with: stringUrl) else {
-            return nil
+            fatalError(RuntimeApiError.notValidUrlFormat.rawValue)
         }
         
         var request = URLRequest(url: url)
@@ -35,6 +35,17 @@ extension RequestProtocol {
         request.httpBody = jsonBody
 
         return request
+    }
+    
+    private func urlSelector(environment: EnvironmentProtocol?) -> String {
+        
+        if let environment = environment {
+            return environment.baseURL
+        } else if let url = self.baseUrl {
+            return url
+        } else {
+            fatalError(RuntimeApiError.noUrlFound.rawValue)
+        }
     }
         
     private func url(with baseURL: String) -> URL? {

@@ -5,82 +5,68 @@
 //  Created by Max Ward on 09/06/2021.
 //
 import Foundation
+import UIKit
 
-/// Enum of API Errors
 enum APIError: Error {
-    /// No data received from the server.
     case noData
-    /// The server response was invalid (unexpected format).
     case invalidResponse
-    /// The request was rejected: 400-499
     case badRequest(String?)
-    /// Encoutered a server error.
     case serverError(String?)
-    /// There was an error parsing the data.
     case parseError(String?)
-    /// Unknown error.
     case unknown
 }
 
 protocol RequestDispatcherProtocol {
-    init(networkSession: NetworkSessionProtocol)
-    func execute<T: Codable>(request: RequestProtocol, of type: T.Type, completion: @escaping (T) -> Void)
+    init(networkSession: NetworkSessionProtocol, environment: EnvironmentProtocol?)
+    func execute<T: Codable>(request: RequestProtocol, of type: T.Type, completion: @escaping (Result<T?, APIError>) -> Void)
 }
 
 class RequestDispatcher: RequestDispatcherProtocol {
     
-    private var environment: EnvironmentProtocol
-
+    private var environment: EnvironmentProtocol?
+    
     private var networkSession: NetworkSessionProtocol
     
     fileprivate static var globalEnvironment: EnvironmentProtocol?
-
-    required init(networkSession: NetworkSessionProtocol) {
+    
+    required init(networkSession: NetworkSessionProtocol, environment: EnvironmentProtocol? = nil) {
         self.networkSession = networkSession
-        self.environment = RequestDispatcher.globalEnvironment! // Fix it later
+        self.environment = environment
     }
     
-    private func currentEnvironment() -> EnvironmentProtocol? {
-        return RequestDispatcher.globalEnvironment
-    }
-    
-    class func setEnvironment(_ environment: EnvironmentProtocol) {
-        RequestDispatcher.globalEnvironment = environment
-    }
-    
-    func execute<T: Codable>(request: RequestProtocol, of type: T.Type, completion: @escaping (T) -> Void) {
-
+    func execute<T: Codable>(request: RequestProtocol, of type: T.Type, completion: @escaping (Result<T?, APIError>) -> Void) {
+        
         guard var urlRequest = request.urlRequest(with: environment) else {
             return
         }
-
-        environment.headers?.forEach({ (key: String, value: String) in
-            urlRequest.addValue(value, forHTTPHeaderField: key)
-        })
-
-        request.headers?.forEach({ (key: String, value: String) in
+        
+        environment?.headers?.forEach({ (key: String, value: String) in
             urlRequest.addValue(value, forHTTPHeaderField: key)
         })
         
         var task: URLSessionTask?
         task = networkSession.dataTask(with: urlRequest, completionHandler: { (data, urlResponse, error) in
-            let jsonDecoder = JSONDecoder()
-              do {
-                     let ip = try jsonDecoder.decode(T.self, from: data!)
-                     completion(ip)
-               } catch {
-                    print("an error occured")
-               }
+            guard let response = urlResponse as? HTTPURLResponse else {
+                completion(.failure(.badRequest("bad request")))
+                return
+            }
+            completion(self.verify(data: data, of: T.self, urlResponse: response , error: error))
         })
         
         task?.resume()
     }
-
-    private func verify(data: Any?, urlResponse: HTTPURLResponse, error: Error?) -> Result<Any, Error> {
+    
+    private func verify<T: Codable>(data: Any?, of type: T.Type, urlResponse: HTTPURLResponse, error: Error?) -> Result<T?, APIError> {
         switch urlResponse.statusCode {
         case 200...299:
             if let data = data {
-                return .success(data)
+                let jsonDecoder = JSONDecoder()
+                do {
+                    let decodedData = try jsonDecoder.decode(T.self, from: data as! Data)
+                    return .success(decodedData)
+                } catch {
+                    return .failure(APIError.unknown)
+                }
             } else {
                 return .failure(APIError.noData)
             }
